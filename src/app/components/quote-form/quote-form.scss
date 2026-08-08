@@ -98,16 +98,22 @@
   }
 
   &__image {
-    .image-preview {
+    .image-preview-list {
       margin-top: 0.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .image-preview {
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      gap: 0.5rem;
+      gap: 0.4rem;
 
       img {
-        max-width: 260px;
-        max-height: 200px;
+        max-width: 200px;
+        max-height: 160px;
         object-fit: contain;
         border: 1px solid #dddddd;
         border-radius: 4px;

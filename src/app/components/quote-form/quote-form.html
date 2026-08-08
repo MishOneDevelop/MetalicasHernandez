@@ -35,8 +35,8 @@
     <table class="quote-form__items" formArrayName="items">
       <thead>
         <tr>
-          <th class="col-qty">Cant.</th>
           <th class="col-desc">Descripción</th>
+          <th class="col-qty">Cant.</th>
           <th class="col-price">Precio unit.</th>
           <th class="col-total">Total</th>
           <th class="col-actions"></th>
@@ -45,14 +45,20 @@
       <tbody>
         @for (item of items.controls; track item; let i = $index) {
           <tr [formGroupName]="i">
-            <td class="col-qty" data-label="Cantidad">
-              <input type="number" formControlName="quantity" min="1" step="1" />
-            </td>
             <td class="col-desc" data-label="Descripción">
               <textarea formControlName="description" rows="8" placeholder="Descripción del producto o servicio"></textarea>
             </td>
+            <td class="col-qty" data-label="Cantidad">
+              <input type="number" formControlName="quantity" min="1" step="1" />
+            </td>
             <td class="col-price" data-label="Precio unit.">
-              <input type="number" formControlName="unitPrice" min="0" step="100" />
+              <input
+                type="text"
+                inputmode="numeric"
+                [value]="formatThousands(item.controls.unitPrice.value)"
+                (input)="onUnitPriceInput($event, i)"
+                placeholder="0"
+              />
             </td>
             <td class="col-total" data-label="Total">{{ itemTotals()[i] | currency: 'COP' : 'symbol' : '1.0-0' : 'es-CO' }}</td>
             <td class="col-actions">
@@ -81,13 +87,17 @@
 
     <div class="quote-form__image">
       <label class="field">
-        <span>Imagen de referencia (opcional)</span>
-        <input type="file" accept="image/*" (change)="onImageSelected($event)" />
+        <span>Imágenes de referencia (opcional)</span>
+        <input type="file" accept="image/*" multiple (change)="onImagesSelected($event)" />
       </label>
-      @if (imageBase64()) {
-        <div class="image-preview">
-          <img [src]="imageBase64()" alt="Vista previa de la imagen de referencia" />
-          <button type="button" class="secondary-button" (click)="removeImage()">Quitar imagen</button>
+      @if (images().length) {
+        <div class="image-preview-list">
+          @for (img of images(); track img; let i = $index) {
+            <div class="image-preview">
+              <img [src]="img" alt="Vista previa de la imagen de referencia" />
+              <button type="button" class="secondary-button" (click)="removeImage(i)">Quitar</button>
+            </div>
+          }
         </div>
       }
     </div>

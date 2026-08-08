@@ -27,8 +27,8 @@
     <table class="quote-document__items">
       <thead>
         <tr>
-          <th class="col-qty">Cant.</th>
           <th class="col-desc">Descripción</th>
+          <th class="col-qty">Cant.</th>
           <th class="col-price">Precio unit.</th>
           <th class="col-total">Total</th>
         </tr>
@@ -36,8 +36,8 @@
       <tbody>
         @for (item of quote().items; track $index) {
           <tr>
-            <td class="col-qty">{{ item.quantity }}</td>
             <td class="col-desc">{{ item.description }}</td>
+            <td class="col-qty">{{ item.quantity }}</td>
             <td class="col-price">{{ item.unitPrice | currency: 'COP' : 'symbol' : '1.0-0' : 'es-CO' }}</td>
             <td class="col-total">{{ item.total | currency: 'COP' : 'symbol' : '1.0-0' : 'es-CO' }}</td>
           </tr>
@@ -57,10 +57,14 @@
     </div>
   </div>
 
-  @if (quote().imageBase64) {
+  @if (quote().images?.length) {
     <div class="quote-document__image">
       <span class="label">Referencia</span>
-      <img [src]="quote().imageBase64" alt="Imagen de referencia del producto cotizado" />
+      <div class="quote-document__image-list">
+        @for (img of quote().images ?? []; track img) {
+          <img [src]="img" alt="Imagen de referencia del producto cotizado" />
+        }
+      </div>
     </div>
   }
 </section>

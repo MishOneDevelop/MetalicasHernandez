@@ -49,7 +49,7 @@ export class QuoteForm {
   private readonly previewRef = viewChild<ElementRef<HTMLElement>>('previewRef');
 
   protected readonly quoteId = signal<string>(crypto.randomUUID());
-  protected readonly imageBase64 = signal<string | undefined>(undefined);
+  protected readonly images = signal<string[]>([]);
   protected readonly saveMessage = signal<string | null>(null);
   protected readonly isExporting = signal(false);
 
@@ -98,7 +98,7 @@ export class QuoteForm {
       items,
       subtotal: total,
       totalToPay: total,
-      imageBase64: this.imageBase64(),
+      images: this.images(),
       createdAt: new Date().toISOString(),
     };
   });
@@ -126,19 +126,38 @@ export class QuoteForm {
     }
   }
 
-  protected onImageSelected(event: Event): void {
+  protected onImagesSelected(event: Event): void {
     const inputElement = event.target as HTMLInputElement;
-    const file = inputElement.files?.[0];
-    if (!file) {
+    const files = inputElement.files;
+    if (!files || files.length === 0) {
       return;
     }
-    const reader = new FileReader();
-    reader.onload = () => this.imageBase64.set(reader.result as string);
-    reader.readAsDataURL(file);
+    Array.from(files).forEach((file) => {
+      const reader = new FileReader();
+      reader.onload = () => this.images.update((current) => [...current, reader.result as string]);
+      reader.readAsDataURL(file);
+    });
+    // Limpia el input para poder volver a elegir el mismo archivo si se
+    // quita de la lista y se quiere agregar de nuevo.
+    inputElement.value = '';
   }
 
-  protected removeImage(): void {
-    this.imageBase64.set(undefined);
+  protected removeImage(index: number): void {
+    this.images.update((current) => current.filter((_, i) => i !== index));
+  }
+
+  // Formatea con puntos de miles/millones (es-CO) mientras se digita el
+  // precio unitario, sin usar type="number" (que no admite texto con puntos).
+  protected formatThousands(value: number): string {
+    return new Intl.NumberFormat('es-CO').format(value || 0);
+  }
+
+  protected onUnitPriceInput(event: Event, index: number): void {
+    const inputElement = event.target as HTMLInputElement;
+    const digits = inputElement.value.replace(/\D/g, '');
+    const numericValue = digits ? Number(digits) : 0;
+    this.items.at(index).controls.unitPrice.setValue(numericValue);
+    inputElement.value = this.formatThousands(numericValue);
   }
 
   protected save(): void {
@@ -164,7 +183,7 @@ export class QuoteForm {
     });
     this.items.clear();
     this.items.push(this.createItem());
-    this.imageBase64.set(undefined);
+    this.images.set([]);
     this.saveMessage.set(null);
   }
 
@@ -194,7 +213,7 @@ export class QuoteForm {
       clientPhone: quote.clientPhone ?? '',
       clientAddress: quote.clientAddress ?? '',
     });
-    this.imageBase64.set(quote.imageBase64);
+    this.images.set(quote.images ?? []);
     this.saveMessage.set(null);
   }
 

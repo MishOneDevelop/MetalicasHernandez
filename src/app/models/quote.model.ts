@@ -17,6 +17,6 @@ export interface Quote {
   items: QuoteItem[];
   subtotal: number;
   totalToPay: number;
-  imageBase64?: string;
+  images?: string[];
   createdAt: string; // ISO datetime, fecha de creacion del registro
 }
