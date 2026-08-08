@@ -1,4 +1,4 @@
-import { Component, ElementRef, computed, effect, inject, input, output, signal, viewChild } from '@angular/core';
+import { Component, computed, effect, inject, input, output, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormArray, FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CurrencyPipe } from '@angular/common';
@@ -45,8 +45,6 @@ export class QuoteForm {
   // Cuando el historial pide editar o duplicar una cotizacion, la pasa aca.
   readonly editingQuote = input<Quote | null>(null);
   readonly quoteSaved = output<Quote>();
-
-  private readonly previewRef = viewChild<ElementRef<HTMLElement>>('previewRef');
 
   protected readonly quoteId = signal<string>(crypto.randomUUID());
   protected readonly images = signal<string[]>([]);
@@ -188,13 +186,9 @@ export class QuoteForm {
   }
 
   protected async downloadPdf(): Promise<void> {
-    const element = this.previewRef()?.nativeElement;
-    if (!element) {
-      return;
-    }
     this.isExporting.set(true);
     try {
-      await this.pdfExport.downloadElementAsPdf(element, `${this.previewQuote().quoteNumber}.pdf`);
+      await this.pdfExport.downloadQuoteAsPdf(this.previewQuote());
     } finally {
       this.isExporting.set(false);
     }
