@@ -16,6 +16,12 @@ export class PdfExport {
       scale: 2,
       useCORS: true,
       backgroundColor: '#ffffff',
+      // Sin esto, html2canvas renderiza tal cual se ve en pantalla: en un
+      // celular eso dispara el media query mobile (max-width: 640px) y el
+      // PDF sale angosto/apilado como la vista previa en el telefono, no
+      // como el documento de escritorio. windowWidth simula un viewport
+      // ancho para el clon que arma html2canvas, sin tocar la ventana real.
+      windowWidth: 1000,
     });
 
     const pdf = new jsPDF({ orientation: 'portrait', unit: 'pt', format: 'letter' });
