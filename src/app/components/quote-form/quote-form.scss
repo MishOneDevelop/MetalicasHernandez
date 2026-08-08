@@ -117,9 +117,22 @@
 
   &__actions {
     display: flex;
-    align-items: center;
+    align-items: stretch;
     flex-wrap: wrap;
     gap: 0.75rem;
+
+    // Los tres botones reparten el ancho disponible en vez de quedar cada
+    // uno del tamano de su texto (lo que antes los dejaba desalineados y
+    // con huecos irregulares al envolver).
+    .primary-button,
+    .secondary-button {
+      flex: 1 1 160px;
+      text-align: center;
+    }
+
+    .save-message {
+      flex-basis: 100%;
+    }
   }
 
   &__preview-title {
@@ -209,21 +222,47 @@
     padding: 1rem;
   }
 
-  // Con el layout de escritorio (gap 1rem) apilado en columna, cada campo
-  // queda muy separado del resto. En movil los campos se agrupan mas
-  // juntos, dejando el espacio grande solo entre secciones distintas
-  // (numero/fecha, cliente, tabla de items, etc).
+  // Antes, achicar el gap no alcanzaba: sin un limite visual, un campo
+  // suelto se ve igual de "separado" que uno junto a otro. Cada fila pasa
+  // a ser una tarjeta (fondo + borde) con sus campos bien juntos adentro;
+  // el espacio grande (gap del body) queda solo entre tarjetas distintas.
   .quote-form__body {
-    gap: 0.6rem;
+    gap: 1rem;
   }
 
   .quote-form__row {
     flex-direction: column;
     gap: 0.6rem;
+    background: #f7f7f7;
+    padding: 0.75rem;
+    border-radius: 6px;
+
+    // flex: 1 1 140px en .field fija una base de 140px que en fila
+    // (desktop) es ancho, pero aca la fila es columna: esa base pasa a
+    // ser alto minimo y dejaba cada campo con un hueco vacio enorme
+    // debajo del input. En columna cada campo debe medir solo lo que
+    // ocupa su contenido.
+    .field {
+      flex: none;
+    }
   }
 
   .quote-form__totals {
     align-self: stretch;
+  }
+
+  // Los botones apilados a todo el ancho son mas faciles de tocar y evitan
+  // el desorden de botones envueltos con anchos distintos en pantallas
+  // angostas.
+  .quote-form__actions {
+    flex-direction: column;
+    align-items: stretch;
+
+    .primary-button,
+    .secondary-button {
+      flex: none;
+      width: 100%;
+    }
   }
 
   // La descripcion necesita todo el ancho para ser usable al escribir, y
