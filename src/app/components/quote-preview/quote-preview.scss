@@ -39,6 +39,7 @@
 
   &__items {
     width: 100%;
+    min-width: 480px;
     border-collapse: collapse;
     margin-top: 1.5rem;
 
@@ -117,6 +118,12 @@
 .value {
   font-size: 0.95rem;
   font-weight: 600;
+}
+
+@media (max-width: 640px) {
+  .quote-document {
+    padding: 1rem;
+  }
 }
 
 @media print {

@@ -22,7 +22,11 @@
   }
 
   &__items {
+    // min-width fija un ancho de trabajo comodo para los inputs; por
+    // debajo de eso, el wrapper .table-scroll del template hace scroll
+    // horizontal en vez de aplastar las columnas o desbordar la pantalla.
     width: 100%;
+    min-width: 480px;
     border-collapse: collapse;
 
     th,
@@ -190,6 +194,10 @@
 }
 
 @media (max-width: 640px) {
+  .quote-form {
+    padding: 1rem;
+  }
+
   .quote-form__row {
     flex-direction: column;
   }

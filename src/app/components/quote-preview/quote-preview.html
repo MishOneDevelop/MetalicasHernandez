@@ -23,26 +23,28 @@
     }
   </div>
 
-  <table class="quote-document__items">
-    <thead>
-      <tr>
-        <th class="col-qty">Cant.</th>
-        <th class="col-desc">Descripción</th>
-        <th class="col-price">Precio unit.</th>
-        <th class="col-total">Total</th>
-      </tr>
-    </thead>
-    <tbody>
-      @for (item of quote().items; track $index) {
+  <div class="table-scroll">
+    <table class="quote-document__items">
+      <thead>
         <tr>
-          <td class="col-qty">{{ item.quantity }}</td>
-          <td class="col-desc">{{ item.description }}</td>
-          <td class="col-price">{{ item.unitPrice | currency: 'COP' : 'symbol' : '1.0-0' : 'es-CO' }}</td>
-          <td class="col-total">{{ item.total | currency: 'COP' : 'symbol' : '1.0-0' : 'es-CO' }}</td>
+          <th class="col-qty">Cant.</th>
+          <th class="col-desc">Descripción</th>
+          <th class="col-price">Precio unit.</th>
+          <th class="col-total">Total</th>
         </tr>
-      }
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        @for (item of quote().items; track $index) {
+          <tr>
+            <td class="col-qty">{{ item.quantity }}</td>
+            <td class="col-desc">{{ item.description }}</td>
+            <td class="col-price">{{ item.unitPrice | currency: 'COP' : 'symbol' : '1.0-0' : 'es-CO' }}</td>
+            <td class="col-total">{{ item.total | currency: 'COP' : 'symbol' : '1.0-0' : 'es-CO' }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
 
   <div class="quote-document__totals">
     <div>
