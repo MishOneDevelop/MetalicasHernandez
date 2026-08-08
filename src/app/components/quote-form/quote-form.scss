@@ -205,4 +205,60 @@
   .quote-form__totals {
     align-self: stretch;
   }
+
+  // La descripcion necesita todo el ancho para ser usable al escribir, y
+  // eso no cabe en una fila de tabla en pantallas angostas. En vez de
+  // scroll horizontal, cada item se convierte en una tarjeta apilada:
+  // misma tabla y mismo formGroupName, solo cambia el layout via CSS
+  // (tecnica "responsive table" con data-label + ::before).
+  .quote-form__items {
+    min-width: 0;
+    width: 100%;
+
+    thead {
+      display: none;
+    }
+
+    tbody,
+    tr,
+    td {
+      display: block;
+      width: 100%;
+    }
+
+    tr {
+      position: relative;
+      margin-bottom: 0.75rem;
+      padding: 0.75rem 2.5rem 0.75rem 0.75rem;
+      border: 1px solid #dddddd;
+      border-radius: 6px;
+    }
+
+    td {
+      border: none;
+      padding: 0.35rem 0;
+    }
+
+    td[data-label]::before {
+      content: attr(data-label);
+      display: block;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #666666;
+      margin-bottom: 0.15rem;
+    }
+
+    .col-total {
+      text-align: left;
+    }
+
+    .col-actions {
+      position: absolute;
+      top: 0.6rem;
+      right: 0.4rem;
+      width: auto;
+      padding: 0;
+    }
+  }
 }

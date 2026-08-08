@@ -45,16 +45,16 @@
       <tbody>
         @for (item of items.controls; track item; let i = $index) {
           <tr [formGroupName]="i">
-            <td class="col-qty">
+            <td class="col-qty" data-label="Cantidad">
               <input type="number" formControlName="quantity" min="1" step="1" />
             </td>
-            <td class="col-desc">
+            <td class="col-desc" data-label="Descripción">
               <textarea formControlName="description" rows="1" placeholder="Descripción del producto o servicio"></textarea>
             </td>
-            <td class="col-price">
+            <td class="col-price" data-label="Precio unit.">
               <input type="number" formControlName="unitPrice" min="0" step="100" />
             </td>
-            <td class="col-total">{{ itemTotals()[i] | currency: 'COP' : 'symbol' : '1.0-0' : 'es-CO' }}</td>
+            <td class="col-total" data-label="Total">{{ itemTotals()[i] | currency: 'COP' : 'symbol' : '1.0-0' : 'es-CO' }}</td>
             <td class="col-actions">
               <button type="button" class="icon-button" (click)="removeItem(i)" [disabled]="items.length <= 1" title="Eliminar ítem">
                 ✕
