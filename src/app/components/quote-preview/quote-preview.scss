@@ -68,6 +68,14 @@
       text-align: right;
       white-space: nowrap;
     }
+
+    // Una referencia/codigo de producto largo sin espacios no tiene punto
+    // de corte natural; sin esto, el texto desborda la celda y empuja
+    // toda la tabla en vez de ajustarse al contenedor.
+    .col-desc {
+      overflow-wrap: break-word;
+      word-break: break-word;
+    }
   }
 
   &__totals {

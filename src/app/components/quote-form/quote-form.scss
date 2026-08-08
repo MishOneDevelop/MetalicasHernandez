@@ -17,7 +17,13 @@
 
   &__row {
     display: flex;
-    flex-wrap: wrap;
+    // nowrap a proposito: con "wrap", flexbox decide el corte de linea por
+    // campo individual segun su tamano base, y en anchos intermedios
+    // (~641-850px) eso deja "Direccion" sola en su propia fila, separada
+    // de "Cliente"/"Telefono". Con nowrap + min-width:0 en .field, los tres
+    // campos se angostan juntos en vez de partirse; por debajo de 640px la
+    // media query ya cambia flex-direction a column, asi que no se rompe.
+    flex-wrap: nowrap;
     gap: 1rem;
   }
 
@@ -131,9 +137,14 @@
   gap: 0.3rem;
   font-size: 0.85rem;
   color: #444444;
+  // Permite que el campo se angoste por debajo de su ancho de contenido
+  // cuando la fila no tiene espacio; sin esto, nowrap desbordaria en vez
+  // de encoger.
+  min-width: 0;
+  flex: 1 1 140px;
 
   &--grow {
-    flex: 1 1 220px;
+    flex: 1.5 1 220px;
   }
 
   input {
