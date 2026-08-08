@@ -209,8 +209,17 @@
     padding: 1rem;
   }
 
+  // Con el layout de escritorio (gap 1rem) apilado en columna, cada campo
+  // queda muy separado del resto. En movil los campos se agrupan mas
+  // juntos, dejando el espacio grande solo entre secciones distintas
+  // (numero/fecha, cliente, tabla de items, etc).
+  .quote-form__body {
+    gap: 0.6rem;
+  }
+
   .quote-form__row {
     flex-direction: column;
+    gap: 0.6rem;
   }
 
   .quote-form__totals {
