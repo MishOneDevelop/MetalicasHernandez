@@ -1,0 +1,64 @@
+<section class="quote-document">
+  <app-company-header />
+
+  <div class="quote-document__meta">
+    <div>
+      <span class="label">Cotización N.º</span>
+      <span class="value">{{ quote().quoteNumber }}</span>
+    </div>
+    <div>
+      <span class="label">Fecha</span>
+      <span class="value">{{ quote().date | date: 'dd/MM/yyyy' }}</span>
+    </div>
+  </div>
+
+  <div class="quote-document__client">
+    <span class="label">Cliente</span>
+    <span class="value">{{ quote().clientName || '—' }}</span>
+    @if (quote().clientPhone) {
+      <span class="value">Tel: {{ quote().clientPhone }}</span>
+    }
+    @if (quote().clientAddress) {
+      <span class="value">Dirección: {{ quote().clientAddress }}</span>
+    }
+  </div>
+
+  <table class="quote-document__items">
+    <thead>
+      <tr>
+        <th class="col-qty">Cant.</th>
+        <th class="col-desc">Descripción</th>
+        <th class="col-price">Precio unit.</th>
+        <th class="col-total">Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (item of quote().items; track $index) {
+        <tr>
+          <td class="col-qty">{{ item.quantity }}</td>
+          <td class="col-desc">{{ item.description }}</td>
+          <td class="col-price">{{ item.unitPrice | currency: 'COP' : 'symbol' : '1.0-0' : 'es-CO' }}</td>
+          <td class="col-total">{{ item.total | currency: 'COP' : 'symbol' : '1.0-0' : 'es-CO' }}</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+
+  <div class="quote-document__totals">
+    <div>
+      <span class="label">Subtotal</span>
+      <span class="value">{{ quote().subtotal | currency: 'COP' : 'symbol' : '1.0-0' : 'es-CO' }}</span>
+    </div>
+    <div class="total-to-pay">
+      <span class="label">Total a pagar</span>
+      <span class="value">{{ quote().totalToPay | currency: 'COP' : 'symbol' : '1.0-0' : 'es-CO' }}</span>
+    </div>
+  </div>
+
+  @if (quote().imageBase64) {
+    <div class="quote-document__image">
+      <span class="label">Referencia</span>
+      <img [src]="quote().imageBase64" alt="Imagen de referencia del producto cotizado" />
+    </div>
+  }
+</section>

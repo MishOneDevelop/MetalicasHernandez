@@ -1,0 +1,32 @@
+<section class="quote-history">
+  @if (quotes().length === 0) {
+    <p class="empty-state">Todavía no hay cotizaciones guardadas.</p>
+  } @else {
+    <table class="quote-history__table">
+      <thead>
+        <tr>
+          <th>N.º</th>
+          <th>Cliente</th>
+          <th>Fecha</th>
+          <th>Total</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (quote of quotes(); track quote.id) {
+          <tr>
+            <td>{{ quote.quoteNumber }}</td>
+            <td>{{ quote.clientName }}</td>
+            <td>{{ quote.date | date: 'dd/MM/yyyy' }}</td>
+            <td class="col-total">{{ quote.totalToPay | currency: 'COP' : 'symbol' : '1.0-0' : 'es-CO' }}</td>
+            <td class="col-actions">
+              <button type="button" class="secondary-button" (click)="open(quote)">Abrir</button>
+              <button type="button" class="secondary-button" (click)="duplicate(quote)">Duplicar</button>
+              <button type="button" class="icon-button" (click)="remove(quote)" title="Eliminar">✕</button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</section>

@@ -1,0 +1,70 @@
+:host {
+  display: block;
+  background: #ffffff;
+  padding: 1.5rem;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+.empty-state {
+  color: #666666;
+  font-style: italic;
+}
+
+.quote-history__table {
+  width: 100%;
+  border-collapse: collapse;
+
+  th,
+  td {
+    border: 1px solid #dddddd;
+    padding: 0.5rem 0.6rem;
+    text-align: left;
+  }
+
+  th {
+    background: #f0f0f0;
+    font-size: 0.8rem;
+  }
+
+  .col-total {
+    text-align: right;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .col-actions {
+    display: flex;
+    gap: 0.4rem;
+    border: none;
+  }
+}
+
+.secondary-button,
+.icon-button {
+  cursor: pointer;
+  border-radius: 4px;
+  font: inherit;
+  font-size: 0.8rem;
+}
+
+.secondary-button {
+  padding: 0.35rem 0.7rem;
+  background: #ffffff;
+  color: #1a1a1a;
+  border: 1px solid #cccccc;
+}
+
+.icon-button {
+  padding: 0.35rem 0.6rem;
+  background: transparent;
+  border: none;
+  color: #c1121f;
+}
+
+@media (max-width: 640px) {
+  .quote-history__table {
+    display: block;
+    overflow-x: auto;
+  }
+}

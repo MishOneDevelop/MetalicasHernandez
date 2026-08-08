@@ -1,0 +1,14 @@
+<div class="app-shell">
+  <nav class="app-nav">
+    <button type="button" [class.active]="view() === 'form'" (click)="showForm()">Cotización</button>
+    <button type="button" [class.active]="view() === 'history'" (click)="showHistory()">Historial</button>
+  </nav>
+
+  <main class="app-content">
+    @if (view() === 'form') {
+      <app-quote-form [editingQuote]="quoteToLoad()" (quoteSaved)="onQuoteSaved()" />
+    } @else {
+      <app-quote-history (openQuote)="onOpenQuote($event)" (duplicateQuote)="onDuplicateQuote($event)" />
+    }
+  </main>
+</div>

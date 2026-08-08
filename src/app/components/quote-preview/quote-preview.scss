@@ -1,0 +1,127 @@
+:host {
+  display: block;
+}
+
+.quote-document {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 8.5in;
+  margin: 0 auto;
+  padding: 2rem;
+  background: #ffffff;
+  color: #1a1a1a;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.9rem;
+  border: 1px solid #dddddd;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12);
+
+  &__meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 1.25rem;
+
+    > div {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  &__client {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    margin-top: 1rem;
+    padding: 0.75rem;
+    background: #f6f6f6;
+    border-radius: 4px;
+  }
+
+  &__items {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1.5rem;
+
+    th,
+    td {
+      border: 1px solid #cccccc;
+      padding: 0.5rem 0.6rem;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #1a1a1a;
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    .col-qty {
+      width: 8%;
+      text-align: center;
+    }
+
+    .col-price,
+    .col-total {
+      width: 18%;
+      text-align: right;
+      white-space: nowrap;
+    }
+  }
+
+  &__totals {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.35rem;
+    margin-top: 1rem;
+
+    > div {
+      display: flex;
+      justify-content: space-between;
+      gap: 1.5rem;
+      min-width: 240px;
+    }
+
+    .total-to-pay {
+      font-size: 1.05rem;
+      font-weight: 700;
+      border-top: 2px solid #c1121f;
+      padding-top: 0.35rem;
+    }
+  }
+
+  &__image {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+
+    img {
+      max-width: 100%;
+      max-height: 320px;
+      object-fit: contain;
+      border: 1px solid #cccccc;
+      border-radius: 4px;
+    }
+  }
+}
+
+.label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #666666;
+}
+
+.value {
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+@media print {
+  .quote-document {
+    max-width: none;
+    padding: 0;
+  }
+}

@@ -1,0 +1,26 @@
+<header class="company-header">
+  <div class="company-header__logo">
+    @if (!logoImageFailed()) {
+      <img
+        src="assets/logo-metalicas-hernandez.png"
+        alt="Logo Metálicas Hernández e Hijos"
+        (error)="onLogoImageError()"
+      />
+    } @else {
+      <svg viewBox="0 0 200 200" width="90" height="90" role="img" aria-label="Logo Metálicas Hernández e Hijos">
+        <defs>
+          <path id="logoArc" d="M 20 112 A 80 80 0 0 1 180 112" fill="none" />
+        </defs>
+        <text class="logo-arc-text">
+          <textPath href="#logoArc" startOffset="50%" text-anchor="middle">METÁLICAS HERNÁNDEZ</textPath>
+        </text>
+        <circle cx="100" cy="142" r="52" class="logo-badge" />
+        <text x="100" y="162" class="logo-monogram" text-anchor="middle">MH</text>
+      </svg>
+    }
+  </div>
+  <div class="company-header__info">
+    <p class="company-header__name">Metálicas Hernández e Hijos</p>
+    <p class="company-header__detail">NIT: 80767880-1 &middot; Régimen Simplificado</p>
+  </div>
+</header>

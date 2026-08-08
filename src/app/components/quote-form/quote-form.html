@@ -1,0 +1,109 @@
+<section class="quote-form">
+  <app-company-header />
+
+  <form [formGroup]="form" class="quote-form__body">
+    <div class="quote-form__row">
+      <label class="field">
+        <span>Número de cotización</span>
+        <input type="text" formControlName="quoteNumber" />
+      </label>
+      <label class="field">
+        <span>Fecha</span>
+        <input type="date" formControlName="date" />
+      </label>
+    </div>
+
+    <div class="quote-form__row">
+      <label class="field field--grow">
+        <span>Cliente *</span>
+        <input type="text" formControlName="clientName" placeholder="Nombre del cliente" />
+        @if (form.controls.clientName.invalid && form.controls.clientName.touched) {
+          <small class="error">El nombre del cliente es obligatorio.</small>
+        }
+      </label>
+      <label class="field">
+        <span>Teléfono</span>
+        <input type="tel" formControlName="clientPhone" placeholder="Opcional" />
+      </label>
+      <label class="field field--grow">
+        <span>Dirección</span>
+        <input type="text" formControlName="clientAddress" placeholder="Opcional" />
+      </label>
+    </div>
+
+    <table class="quote-form__items" formArrayName="items">
+      <thead>
+        <tr>
+          <th class="col-qty">Cant.</th>
+          <th class="col-desc">Descripción</th>
+          <th class="col-price">Precio unit.</th>
+          <th class="col-total">Total</th>
+          <th class="col-actions"></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (item of items.controls; track item; let i = $index) {
+          <tr [formGroupName]="i">
+            <td class="col-qty">
+              <input type="number" formControlName="quantity" min="1" step="1" />
+            </td>
+            <td class="col-desc">
+              <textarea formControlName="description" rows="1" placeholder="Descripción del producto o servicio"></textarea>
+            </td>
+            <td class="col-price">
+              <input type="number" formControlName="unitPrice" min="0" step="100" />
+            </td>
+            <td class="col-total">{{ itemTotals()[i] | currency: 'COP' : 'symbol' : '1.0-0' : 'es-CO' }}</td>
+            <td class="col-actions">
+              <button type="button" class="icon-button" (click)="removeItem(i)" [disabled]="items.length <= 1" title="Eliminar ítem">
+                ✕
+              </button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+
+    <button type="button" class="secondary-button" (click)="addItem()">+ Agregar ítem</button>
+
+    <div class="quote-form__totals">
+      <div>
+        <span>Subtotal</span>
+        <strong>{{ subtotal() | currency: 'COP' : 'symbol' : '1.0-0' : 'es-CO' }}</strong>
+      </div>
+      <div>
+        <span>Total a pagar</span>
+        <strong>{{ subtotal() | currency: 'COP' : 'symbol' : '1.0-0' : 'es-CO' }}</strong>
+      </div>
+    </div>
+
+    <div class="quote-form__image">
+      <label class="field">
+        <span>Imagen de referencia (opcional)</span>
+        <input type="file" accept="image/*" (change)="onImageSelected($event)" />
+      </label>
+      @if (imageBase64()) {
+        <div class="image-preview">
+          <img [src]="imageBase64()" alt="Vista previa de la imagen de referencia" />
+          <button type="button" class="secondary-button" (click)="removeImage()">Quitar imagen</button>
+        </div>
+      }
+    </div>
+
+    <div class="quote-form__actions">
+      <button type="button" class="primary-button" (click)="save()">Guardar cotización</button>
+      <button type="button" class="secondary-button" (click)="startNew()">Nueva cotización</button>
+      <button type="button" class="primary-button" (click)="downloadPdf()" [disabled]="isExporting()">
+        {{ isExporting() ? 'Generando PDF…' : 'Descargar PDF' }}
+      </button>
+      @if (saveMessage()) {
+        <span class="save-message">{{ saveMessage() }}</span>
+      }
+    </div>
+  </form>
+
+  <h2 class="quote-form__preview-title">Vista previa</h2>
+  <div #previewRef class="printable-area">
+    <app-quote-preview [quote]="previewQuote()" />
+  </div>
+</section>
